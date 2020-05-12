@@ -20,7 +20,7 @@ class rx_test extends uvm_test;
 	uvm_top.print_topology();
 	endfunction
 	
-	task run_phase(uvm_phase phase)
+	task run_phase(uvm_phase phase);
 		#300;
 	endtask
 endclass

@@ -45,48 +45,48 @@ interface xge_ifc(
 	bit reset_156m25_n
 	bit reset_xgmii_rx_n
 	bit reset_xgmii_tx_n
-   
-   clocking clockingTxRx @(posedge clkTxRxInterface);
-      // Using default delays
-      default output #1000;
-      
-      // receive interface direction
-      input		pkt_rx_avail;
-      input		pkt_rx_data;
-      input		pkt_rx_eop;
-      input		pkt_rx_val;
-      input		pkt_rx_sop;
-      input		pkt_rx_mod;
-      input		pkt_rx_err;
-      output	pkt_rx_ren;
-      // transmit interface direction
-      output	pkt_tx_data;
-      output	pkt_tx_val;
-      output	pkt_tx_sop;
-      output	pkt_tx_eop;
-      output	pkt_tx_mod;
-      input		pkt_tx_full;
+	
+	clocking cbtxrx @(posedge clkTxRx);
+		// Using default delays
+		default output #1000;
+		
+		// receive interface direction
+		input		pkt_rx_avail;
+		input		pkt_rx_data;
+		input		pkt_rx_eop;
+		input		pkt_rx_val;
+		input		pkt_rx_sop;
+		input		pkt_rx_mod;
+		input		pkt_rx_err;
+		output	pkt_rx_ren;
+		// transmit interface direction
+		output	pkt_tx_data;
+		output	pkt_tx_val;
+		output	pkt_tx_sop;
+		output	pkt_tx_eop;
+		output	pkt_tx_mod;
+		input		pkt_tx_full;
 
-      output	reset_156m25_n;
+		output	reset_156m25_n;
 
-      output 	wb_rst_i; 
-      
-   endclocking // clockingTxRx
+		output 	wb_rst_i; 
+		
+	endclocking // cbTxRx
 
-   clocking clockingXGMIIRx @(posedge clkXGMIIInterfaceRx);
-      output xgmii_rxc;
-      output xgmii_rxd;
+	clocking cbxGMIIRx @(posedge clkXGMIIInterfaceRx);
+		output xgmii_rxc;
+		output xgmii_rxd;
 
-      output reset_xgmii_rx_n;
-   endclocking // clockingXGMIIRx
+		output reset_xgmii_rx_n;
+	endclocking // cbXGMIIRx
 
-   clocking clockingXGMIITx @(posedge clkXGMIIInterfaceTx);
-      input xgmii_txc;
-      input xgmii_txd;
+	clocking cbxGMIITx @(posedge clkXGMIIInterfaceTx);
+		input xgmii_txc;
+		input xgmii_txd;
 
-      output reset_xgmii_tx_n;
-   endclocking // clockingXGMIITx
+		output reset_xgmii_tx_n;
+	endclocking // cbXGMIITx
 
-   //modport TESTMOD (clocking clockingTxRx, clocking clockingXGMIIRx, clocking clockingXGMIITx);
-   
+	//modport TESTMOD (clocking cbtxrx, clocking cbxGMIIRx, clocking cbxGMIITx);
+	
 endinterface
