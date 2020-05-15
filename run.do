@@ -1,5 +1,5 @@
 vlog \
-	+incdir+../../uvm-1.2/src\
+	+incdir+../../uvm-1.2/src \
 xge.svh
 
 ##

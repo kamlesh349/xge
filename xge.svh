@@ -1,7 +1,8 @@
-`include "uvm.sv"
-`include "uvm_macros.svh"
-import uvm_pkg::*;
+`include   "uvm_macros.svh"
+ import     uvm_pkg::*;
 
-`include "rx_env.sv"
-`include "my_test.sv"
+`include   "xge_ifc.sv"
+`include"agent/header.svh"
+`include "env.sv"
+`include "test.sv"
 `include "top.sv"

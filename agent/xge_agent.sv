@@ -1,3 +1,5 @@
+typedef uvm_sequencer#(xge_pkt) xge_seqr;
+
 class xge_agent extends uvm_agent;
 	`uvm_component_utils(xge_agent)
 

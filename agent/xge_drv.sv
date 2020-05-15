@@ -8,7 +8,7 @@ class xge_drv extends uvm_driver;
 
 	function void build_phase(uvm_phase phase);
 		if (!uvm_config_db#(vif)::get(this,"","xge_ifc",vif)
-			`uvm_fatal("DRV", "failed to get interface")
+			`uvm_fatal("_DRV", "failed to get interface")
 	endfunction
 
 	task run_phase(uvm_phase phase);

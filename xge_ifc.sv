@@ -41,10 +41,10 @@ interface xge_ifc(
 	bit [63:0]	xgmii_txd;
 
 	//_resets
-	bit wb_rst_i
-	bit reset_156m25_n
-	bit reset_xgmii_rx_n
-	bit reset_xgmii_tx_n
+	bit wb_rst_i;
+	bit reset_156m25_n;
+	bit reset_xgmii_rx_n;
+	bit reset_xgmii_tx_n;
 
 	clocking cbtxrx @(posedge clkTxRx);
 		// Using default delays
@@ -73,19 +73,18 @@ interface xge_ifc(
 
 	endclocking //_cbTxRx
 
-	clocking cbxGMIIRx @(posedge clkXGMIIInterfaceRx);
+	clocking cbxGMIIRx @(posedge clkXGMIIRx);
 		output xgmii_rxc;
 		output xgmii_rxd;
 
 		output reset_xgmii_rx_n;
-	endclocking // cbXGMIIRx
+	endclocking // cbxGMIIRx
 
-	clocking cbxGMIITx @(posedge clkXGMIIInterfaceTx);
+	clocking cbxGMIITx @(posedge clkXGMIITx);
 		input xgmii_txc;
 		input xgmii_txd;
 
 		output reset_xgmii_tx_n;
-	endclocking // cbXGMIITx
+	endclocking // cbxGMIITx
 
-	//modport TESTMOD (clocking cbtxrx, clocking cbxGMIIRx, clocking cbxGMIITx);
 endinterface
