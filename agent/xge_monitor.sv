@@ -1,11 +1,11 @@
 class xge_mon extends uvm_monitor;
-	`uvm_componet_utils(xge_mon)
+	`uvm_component_utils(xge_mon)
 	vxge		vif;
 	xge_pkt	rx,tx;
 
 	uvm_analysis_port#(xge_pkt)	nq_ap;
 
-	function new(string name="xge_mon", uvm_componet parent);
+	function new(string name="xge_mon", uvm_component parent);
 		super.new(name, parent);
 		nq_ap = new("nq_ap",this);
 	endfunction

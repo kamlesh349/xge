@@ -1,5 +1,5 @@
 class xge_pkt extends uvm_seq_item;
-
+	`uvm_object_utils(xge_pkt)
 	rand bit [63:0] data[$];
 	rand bit [ 2:0] mod;
 

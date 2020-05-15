@@ -1,7 +1,6 @@
 module top;
-//clk and reset instantiation
-reg rx_clk,rx_rst_n;
-
+reg		clk,rst_n;
+xge_ifc	ifc;
 //dut instantiation
 //rx_dequeue dut();
 

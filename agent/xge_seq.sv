@@ -13,7 +13,7 @@ class xge_crt_seq extends uvm_sequence#(xge_pkt);
 
 	task body();
 		`uvm_do_with(req,
-			{data.size dist { [1:2]:/9, [3:60]:/27, [61:64]:/3};}
+			{data.size dist { [1:2]:/1, [3:60]:/9, [61:64]:/3};}
 		)
 	endtask
 endclass

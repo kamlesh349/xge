@@ -2,7 +2,7 @@ class xge_drv extends uvm_driver;
 	`uvm_component_utils(xge_drv)
 	vxge vif;
 
-	function new(string name="xge_drv", uvm_componet parent);
+	function new(string name="xge_drv", uvm_component parent);
 		super.new(name, parent);
 	endfunction
 
