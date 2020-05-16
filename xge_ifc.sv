@@ -86,5 +86,5 @@ interface xge_ifc(
 
 		output reset_xgmii_tx_n;
 	endclocking // cbxGMIITx
-
 endinterface
+typedef virtual xge_ifc vxge;

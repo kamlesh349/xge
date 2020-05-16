@@ -1,11 +1,9 @@
-typedef uvm_sequencer#(xge_pkt) xge_seqr;
-
 class xge_agent extends uvm_agent;
 	`uvm_component_utils(xge_agent)
 
 	xge_mon	mon;
 	xge_drv	drv;
-	xge_seqr seqr;
+	uvm_sequencer#(xge_pkt) seqr;
 
 //	uvm_active_passive_enum	is_active;
 
@@ -17,7 +15,7 @@ class xge_agent extends uvm_agent;
 		super.build_phase(phase);
 		mon	= xge_mon  :: type_id :: create("mon", this);
 		drv	= xge_drv  :: type_id :: create("drv", this);
-		seqr	= xge_seqr :: type_id :: create("seqr", this);
+		seqr	= uvm_sequencer#(xge_pkt):: type_id :: create("seqr", this);
 	endfunction
 
 	function void connect_phase(uvm_phase phase);

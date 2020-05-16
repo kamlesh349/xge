@@ -16,7 +16,7 @@ class xge_test extends uvm_test;
 	endfunction
 	
 	virtual task run_phase(uvm_phase phase);
-		xge_crt_seq seq = xge_crt_seq::create::type_id::create("seq");
+		xge_crt_seq seq = xge_crt_seq::type_id::create("seq");
 		phase.raise_objection(this);
 			seq.start(env.agent.seqr);
 		phase.drop_objection(this);	
