@@ -1,0 +1,5 @@
+`include"xge_pkt.sv"
+`include"xge_seq.sv"
+`include"xge_mon.sv"
+`include"xge_drv.sv"
+`include"xge_agent.sv"
