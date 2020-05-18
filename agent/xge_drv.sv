@@ -1,4 +1,4 @@
-class xge_drv extends uvm_driver;
+class xge_drv extends uvm_driver#(xge_pkt);
 	`uvm_component_utils(xge_drv)
 	vxge vif;
 
@@ -15,40 +15,40 @@ class xge_drv extends uvm_driver;
 		forever begin
 		fork
 			begin:  tx
-				xge_pkt req;
 				seq_item_port.get_next_item(req);
-				vif.cbtxrx.pkt_tx_val = 'b0;
+				vif.cbtxrx.pkt_tx_val <= 'b0;
 				wait(!vif.pkt_tx_full);
-				vif.cbtxrx.pkt_tx_val = 'b1;
-				vif.cbtxrx.pkt_tx_sop = 'b1;
-				vif.cbtxrx.pkt_tx_eop = 'b0;
-				vif.cbtxrx.pkt_tx_mod = 'b0;
-				vif.cbtxrx.pkt_tx_data = req.data.pop_front;
+				vif.cbtxrx.pkt_tx_val <= 'b1;
+				vif.cbtxrx.pkt_tx_sop <= 'b1;
+				vif.cbtxrx.pkt_tx_eop <= 'b0;
+				vif.cbtxrx.pkt_tx_mod <= 'b0;
+				vif.cbtxrx.pkt_tx_data <= req.data.pop_front;
 				@(vif.cbtxrx);
-				vif.cbtxrx.pkt_tx_sop = 'b0;
+				vif.cbtxrx.pkt_tx_sop <= 'b0;
 				while(req.data.size != 1)begin
-					vif.cbtxrx.pkt_tx_data = req.data.pop_front;
+					vif.cbtxrx.pkt_tx_data <= req.data.pop_front;
 					@(vif.cbtxrx);
 				end
-				vif.cbtxrx.pkt_tx_eop = 'b1;
-				vif.cbtxrx.pkt_tx_mod = req.mod;
-				vif.cbtxrx.pkt_tx_data=req.data.pop_front;
+				vif.cbtxrx.pkt_tx_eop <= 'b1;
+				vif.cbtxrx.pkt_tx_mod <= req.mod;
+				vif.cbtxrx.pkt_tx_data<=req.data.pop_front;
 				seq_item_port.item_done(req);
 			end:    tx
 			begin:  rx
 				wait(vif.cbtxrx.pkt_rx_avail);
-				vif.cbtxrx.pkt_rx_ren = 'b1;
+				vif.cbtxrx.pkt_rx_ren <= 'b1;
 				wait(vif.cbtxrx.pkt_rx_eop);
-				vif.cbtxrx.pkt_rx_ren = 'b0;
+				vif.cbtxrx.pkt_rx_ren <= 'b0;
 			end:    rx
 			begin:  rst
 				wait(!vif.reset_156m25_n);
 				`uvm_info("DRV","_Reset_applied",UVM_MEDIUM)
 				disable rx;
 				disable tx;
-				while(!vif.reset_156m25_n);
+				while(!vif.reset_156m25_n)
+					@(vif.cbtxrx) `uvm_info("DRV","_Reset_applied",UVM_MEDIUM)
 			end:    rst
-		join_any
+		join
 		end
 	endtask
 endclass

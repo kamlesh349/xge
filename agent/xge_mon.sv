@@ -9,6 +9,7 @@ class xge_mon extends uvm_monitor;
 	function new(string name="xge_mon", uvm_component parent);
 		super.new(name, parent);
 		nq_ap = new("nq_ap",this);
+		dq_ap = new("dq_ap",this);
 	endfunction
 
 	function void build_phase(uvm_phase phase);
@@ -28,7 +29,8 @@ class xge_mon extends uvm_monitor;
 				nq_ap.write(tx);
 				disable rx_dq;
 				disable tx_nq;
-				while(!vif.reset_156m25_n);
+				while(!vif.reset_156m25_n)
+					@(vif.cbtxrx);
 			end:    rst
 			begin:  tx_nq
 				wait(vif.pkt_tx_sop);

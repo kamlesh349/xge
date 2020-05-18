@@ -5,7 +5,7 @@ class xge_base_seq extends uvm_sequence#(xge_pkt);
 	endfunction
 endclass
 
-class xge_crt_seq extends uvm_sequence#(xge_pkt);
+class xge_crt_seq extends xge_base_seq;
 	`uvm_object_utils(xge_crt_seq)
 	function new(string name="xge_crt_seq");
 		super.new(name);
