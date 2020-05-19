@@ -48,6 +48,10 @@ initial begin
 	forever #5 clk=~clk;
 end
 
+assign ifc.xgmii_rxc = ifc.xgmii_txc;
+
+assign ifc.xgmii_rxd = ifc.xgmii_txd;
+
 //rst apply
 initial begin
 	ifc.wb_rst_i         =0;

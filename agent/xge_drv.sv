@@ -26,7 +26,6 @@ class xge_drv extends uvm_driver#(xge_pkt);
 				@(vif.cbtxrx);
 				vif.cbtxrx.pkt_tx_sop <= 'b0;
 				while(req.data.size != 1)begin
-				`uvm_info("_Dbug","a",UVM_MEDIUM)
 					vif.cbtxrx.pkt_tx_data <= req.data.pop_front;
 					@(vif.cbtxrx);
 				end
