@@ -13,7 +13,10 @@ class xge_crt_seq extends xge_base_seq;
 
 	task body();
 		`uvm_do_with(req,
-			{data.size dist { [1:2]:/1, [3:60]:/9, [61:64]:/3};}
+			{
+			data.size dist { [1:9]:/3, [61:64]:/3};
+			mod dist { [1:7]:/27, 0:/3};
+			}
 		)
 	endtask
 endclass

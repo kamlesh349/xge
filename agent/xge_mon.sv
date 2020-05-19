@@ -24,7 +24,7 @@ class xge_mon extends uvm_monitor;
 		fork
 			begin:  rst
 				wait(!vif.reset_156m25_n);
-				`uvm_info(get_type_name(),"_Reset_applied",UVM_MEDIUM)
+				`uvm_info("_MON","_Reset_applied",UVM_LOW)
 				dq_ap.write(rx);
 				nq_ap.write(tx);
 				disable rx_dq;

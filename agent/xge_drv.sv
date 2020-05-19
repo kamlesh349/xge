@@ -16,7 +16,7 @@ class xge_drv extends uvm_driver#(xge_pkt);
 		fork
 			begin:  tx
 				seq_item_port.get_next_item(req);
-				vif.cbtxrx.pkt_tx_val <= 'b0;
+				req.seq_display();
 				wait(!vif.pkt_tx_full);
 				vif.cbtxrx.pkt_tx_val <= 'b1;
 				vif.cbtxrx.pkt_tx_sop <= 'b1;
@@ -26,6 +26,7 @@ class xge_drv extends uvm_driver#(xge_pkt);
 				@(vif.cbtxrx);
 				vif.cbtxrx.pkt_tx_sop <= 'b0;
 				while(req.data.size != 1)begin
+				`uvm_info("_Dbug","a",UVM_MEDIUM)
 					vif.cbtxrx.pkt_tx_data <= req.data.pop_front;
 					@(vif.cbtxrx);
 				end
@@ -33,6 +34,7 @@ class xge_drv extends uvm_driver#(xge_pkt);
 				vif.cbtxrx.pkt_tx_mod <= req.mod;
 				vif.cbtxrx.pkt_tx_data<=req.data.pop_front;
 				seq_item_port.item_done(req);
+				vif.cbtxrx.pkt_tx_val <= 'b0;
 			end:    tx
 			begin:  rx
 				wait(vif.cbtxrx.pkt_rx_avail);
@@ -42,11 +44,11 @@ class xge_drv extends uvm_driver#(xge_pkt);
 			end:    rx
 			begin:  rst
 				wait(!vif.reset_156m25_n);
-				`uvm_info("DRV","_Reset_applied",UVM_MEDIUM)
+				`uvm_info("_DRV","_Reset_applied",UVM_LOW)
 				disable rx;
 				disable tx;
 				while(!vif.reset_156m25_n)
-					@(vif.cbtxrx) `uvm_info("DRV","_Reset_applied",UVM_MEDIUM)
+					@(vif.cbtxrx);
 			end:    rst
 		join
 		end

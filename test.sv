@@ -19,6 +19,7 @@ class xge_test extends uvm_test;
 		xge_crt_seq seq = xge_crt_seq::type_id::create("seq");
 		phase.raise_objection(this);
 			seq.start(env.agent.seqr);
+			#33;
 		phase.drop_objection(this);	
 	endtask
 endclass
