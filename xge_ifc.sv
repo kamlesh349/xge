@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 interface xge_ifc(
 	input bit clkWB,
 	input bit clkTxRx,
@@ -48,7 +49,7 @@ interface xge_ifc(
 
 	clocking cbtxrx @(posedge clkTxRx);
 		// Using default delays
-//		default output #1000;
+		default output #1;
 
 		// receive interface direction
 		input		pkt_rx_avail;

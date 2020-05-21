@@ -16,6 +16,7 @@ class xge_pkt extends uvm_sequence_item;
 		super.new(name);
 	endfunction
 	function void seq_display();
+		$display(get_name());
 		$display("%p%d\t%d",data,data.size,mod);
 	endfunction
 	function string convert2string();

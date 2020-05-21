@@ -1,7 +1,8 @@
 module top;
-reg		clk,rst_n;
+reg clk,rst_n;
+reg wb_clk, wb_rst_n;
 xge_ifc	ifc(
-	clk,
+	wb_clk,
 	clk,
 	clk,
 	clk
@@ -44,8 +45,13 @@ xge_mac dut(
 	);
 //clk generation
 initial begin
-	clk=0;
-	forever #5 clk=~clk;
+	clk <=0;
+	forever #3.2 clk=~clk;
+end
+
+initial begin
+	wb_clk <=0;
+	forever #20 wb_clk=~wb_clk;
 end
 
 assign ifc.xgmii_rxc = ifc.xgmii_txc;
@@ -54,12 +60,12 @@ assign ifc.xgmii_rxd = ifc.xgmii_txd;
 
 //rst apply
 initial begin
-	ifc.wb_rst_i         =0;
+	ifc.wb_rst_i         =1;
 	ifc.reset_156m25_n   =0;
 	ifc.reset_xgmii_rx_n =0;
 	ifc.reset_xgmii_tx_n =0;
 	repeat(2)@(posedge clk);
-	ifc.wb_rst_i         =1;
+	ifc.wb_rst_i         =0;
 	ifc.reset_156m25_n   =1;
 	ifc.reset_xgmii_rx_n =1;
 	ifc.reset_xgmii_tx_n =1;
@@ -69,6 +75,4 @@ initial begin
 	uvm_config_db #(vxge) :: set(null,"*","xge_ifc",ifc);
 	run_test();
 end
-
-initial #5000 $finish;
 endmodule
