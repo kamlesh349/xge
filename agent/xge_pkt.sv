@@ -16,10 +16,11 @@ class xge_pkt extends uvm_sequence_item;
 		super.new(name);
 	endfunction
 	function void seq_display();
-		$display(get_name());
-		$display("%p%d\t%d",data,data.size,mod);
+		`uvm_info(get_name(),convert2string(),UVM_LOW)
+//		$display(get_name());
+//		$display("%p%d\t%d",data,data.size,mod);
 	endfunction
 	function string convert2string();
-		return $sformatf("%p\t%d",data,mod);
+		return $sformatf("%s\n%p\t%d\t%d",get_name(),data,data.size,mod);
 	endfunction
 endclass

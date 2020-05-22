@@ -55,7 +55,6 @@ initial begin
 end
 
 assign ifc.xgmii_rxc = ifc.xgmii_txc;
-
 assign ifc.xgmii_rxd = ifc.xgmii_txd;
 
 //rst apply
@@ -69,6 +68,7 @@ initial begin
 	ifc.reset_156m25_n   =1;
 	ifc.reset_xgmii_rx_n =1;
 	ifc.reset_xgmii_tx_n =1;
+	#3333 $stop;
 end
 
 initial begin

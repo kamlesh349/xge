@@ -18,53 +18,44 @@ class xge_mon extends uvm_monitor;
 	endfunction
 
 	task run_phase(uvm_phase phase);
-		bit tx_f = 1;
-		bit rx_f = 1;
 		forever begin
-		fork
-			begin:  rst
-				wait(!vif.reset_156m25_n);
-				`uvm_info("_MON","_Reset_applied",UVM_HIGH)
-				disable rx_dq;
-				disable tx_nq;
-				dq_ap.write(rx);
-				nq_ap.write(tx);
-				while(!vif.reset_156m25_n)
-					@(vif.cbtxrx);
-			end:    rst
 			fork
-				begin:  tx_nq
-					tx	= xge_pkt::type_id::create("tx");
-					wait(vif.pkt_tx_sop && tx_f);
-					tx_f = 0;
-					do begin
-						tx.data.push_back(vif.pkt_tx_data);
-						@(vif.cbtxrx);
-					end while(!vif.pkt_tx_eop);
-					tx.data.push_back(vif.pkt_tx_data);
-					$cast(tx.mod, vif.pkt_tx_mod);
-					nq_ap.write(tx);
-					tx.seq_display();
-					disable rst;
-					tx_f = 1;
-				end:    tx_nq
-				begin:  rx_dq
-					rx	= xge_pkt::type_id::create("rx");
-					wait(vif.cbtxrx.pkt_rx_sop && rx_f);
-					rx_f = 0;
-					do begin
-						rx.data.push_back(vif.cbtxrx.pkt_rx_data);
-						@(vif.cbtxrx);
-					end while(!vif.cbtxrx.pkt_rx_eop);
-					rx.data.push_back(vif.cbtxrx.pkt_rx_data);
-					$cast(rx.mod, vif.cbtxrx.pkt_rx_mod);
-					dq_ap.write(rx);
-					rx.seq_display();
-					disable rst;
-					rx_f = 1;
-				end:    rx_dq
-			join_any
-		join
+				_run_tx_mon();
+				_run_rx_mon();
+			join_none
+			wait(!vif.reset_156m25_n);
+			`uvm_info("_MON","_Reset_applied",UVM_HIGH)
+			disable fork;
+			dq_ap.write(rx);
+			nq_ap.write(tx);
+			while(!vif.reset_156m25_n)
+				@(vif.cbtxrx);
 		end//4ever
+	endtask
+	task _run_tx_mon();
+		forever begin:  tx_nq
+			tx	= xge_pkt::type_id::create("tx");
+			wait(vif.cbtxrx.pkt_tx_sop);
+			do
+				@(vif.cbtxrx) tx.data.push_back(vif.pkt_tx_data);
+			while(!vif.pkt_tx_eop); 
+			$cast(tx.mod, vif.pkt_tx_mod);
+			nq_ap.write(tx);
+			tx.seq_display();
+		end:    tx_nq
+	endtask
+	task _run_rx_mon();
+		forever begin:  rx_dq
+			rx	= xge_pkt::type_id::create("rx");
+			wait(vif.cbtxrx.pkt_rx_sop);
+			while(!vif.cbtxrx.pkt_rx_eop) begin
+				rx.data.push_back(vif.cbtxrx.pkt_rx_data);
+				@(vif.cbtxrx);
+			end
+			rx.data.push_back(vif.cbtxrx.pkt_rx_data);
+			$cast(rx.mod, vif.cbtxrx.pkt_rx_mod);
+			dq_ap.write(rx);
+			rx.seq_display();
+		end:    rx_dq
 	endtask
 endclass

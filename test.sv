@@ -22,9 +22,15 @@ class xge_test extends uvm_test;
 	virtual task run_phase(uvm_phase phase);
 		xge_crt_seq seq = xge_crt_seq::type_id::create("seq");
 		phase.raise_objection(this);
-			@(posedge vif.clkTxRx);
-			seq.start(env.agent.seqr);
-			repeat(2) @(posedge vif.clkWB);
+			wait(vif.reset_156m25_n);
+			repeat(2) begin
+				@(posedge vif.cbtxrx);
+				fork
+					seq.start(env.agent.seqr);
+					wait(vif.pkt_rx_eop);
+				join
+			end
+			repeat(3) @(posedge vif.clkWB);
 			cpuread(`CPUREG_STATSTXPKTS,    data[0]);
 			cpuread(`CPUREG_STATSRXPKTS,    data[0]);
 			cpuread(`CPUREG_STATSTXOCTETS,  data[0]);
